@@ -62,6 +62,14 @@ testBuy(void)
   assert(VendingCancel(v) == 80);
   assert(VendingAmount(v) == 0);
 
+  VendingDropIn(v, 1000);
+  assert(VendingBuy(v));
+  assert(VendingBuy(v));
+  assert(VendingBuy(v));
+  assert(VendingBuy(v));
+  assert(! VendingBuy(v));
+  assert(VendingAmount(v) == 520);
+
   VendingForget(v);
   return 1;
 }
@@ -154,7 +162,8 @@ int
 VendingBuy(Vending_p self)
 {
   if (! VendingCanBuy(self)) return 0;
-  
+
+  self->item.stock -= 1;
   self->amount -= self->item.price;
 
   return 1;
