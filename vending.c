@@ -29,6 +29,9 @@ VendingItemStock(Vending_p self);
 int
 VendingCanBuy(Vending_p self);
 
+int
+VendingBuy(Vending_p self);
+
 /* test.c */
 #include <stdio.h>
 #include <string.h>
@@ -45,6 +48,7 @@ testBuy(void)
   assert(VendingItemPrice(v) == 120);
   assert(VendingItemStock(v) == 5);
   assert(! VendingCanBuy(v));
+  assert(! VendingBuy(v));
 
   VendingDropIn(v, 100);
   assert(VendingAmount(v) == 100);
@@ -53,7 +57,9 @@ testBuy(void)
   assert(VendingAmount(v) == 200);
   assert(VendingCanBuy(v));
 
-  assert(VendingCancel(v) == 200);
+  assert(VendingBuy(v));
+
+  assert(VendingCancel(v) == 80);
   assert(VendingAmount(v) == 0);
 
   VendingForget(v);
@@ -142,4 +148,14 @@ int
 VendingCanBuy(Vending_p self)
 {
   return self->item.stock >= 1 && self->item.price <= self->amount;
+}
+
+int
+VendingBuy(Vending_p self)
+{
+  if (! VendingCanBuy(self)) return 0;
+  
+  self->amount -= self->item.price;
+
+  return 1;
 }
