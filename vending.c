@@ -1,14 +1,11 @@
-/* foo.h */
-typedef struct Foo_s * Foo_p;
+/* vending.h */
+typedef struct Vending_s * Vending_p;
 
-Foo_p
-FooCreate(void);
+Vending_p
+VendingCreate(void);
 
 void
-FooForget(Foo_p foo);
-
-const char *
-FooFoo(Foo_p foo);
+VendingForget(Vending_p vending);
 
 /* test.c */
 #include <stdio.h>
@@ -18,10 +15,9 @@ FooFoo(Foo_p foo);
 static int
 testCore(void)
 {
-  Foo_p foo = FooCreate();
-  assert(foo);
-  assert(FooFoo(foo));
-  FooForget(foo);
+  Vending_p vending = VendingCreate();
+  assert(vending);
+  VendingForget(vending);
   return 1;
 }
 
@@ -33,27 +29,21 @@ main(int argc,
   puts("done");
 }
 
-/* foo.c */
+/* vending.c */
 #include <stdlib.h>
 
-typedef struct Foo_s {
-  int foo;
-} Foo_t;
+typedef struct Vending_s {
+  int vending;
+} Vending_t;
 
-Foo_p
-FooCreate(void)
+Vending_p
+VendingCreate(void)
 {
-  return calloc(1, sizeof(Foo_t));
+  return calloc(1, sizeof(Vending_t));
 }
 
 void
-FooForget(Foo_p self)
+VendingForget(Vending_p self)
 {
   free(self);
-}
-
-const char *
-FooFoo(Foo_p self)
-{
-  return "Foo";
 }
