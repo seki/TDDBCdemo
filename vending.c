@@ -5,7 +5,10 @@ Vending_p
 VendingCreate(void);
 
 void
-VendingForget(Vending_p vending);
+VendingForget(Vending_p self);
+
+int
+VendingAmount(Vending_p self);
 
 /* test.c */
 #include <stdio.h>
@@ -13,11 +16,14 @@ VendingForget(Vending_p vending);
 #include <assert.h>
 
 static int
-testCore(void)
+testBuy(void)
 {
-  Vending_p vending = VendingCreate();
-  assert(vending);
-  VendingForget(vending);
+  Vending_p v = VendingCreate();
+
+  assert(v);
+  assert(VendingAmount(v) == 0);
+
+  VendingForget(v);
   return 1;
 }
 
@@ -25,7 +31,7 @@ int
 main(int argc,
      char **argv)
 {
-  assert(testCore());
+  assert(testBuy());
   puts("done");
 }
 
@@ -46,4 +52,10 @@ void
 VendingForget(Vending_p self)
 {
   free(self);
+}
+
+int
+VendingAmount(Vending_p self)
+{
+  return 0;
 }
