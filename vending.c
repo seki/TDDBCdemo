@@ -14,6 +14,9 @@ void
 VendingDropIn(Vending_p self, 
 	      int money);
 
+int
+VendingCancel(Vending_p self);
+
 /* test.c */
 #include <stdio.h>
 #include <string.h>
@@ -29,6 +32,11 @@ testBuy(void)
 
   VendingDropIn(v, 100);
   assert(VendingAmount(v) == 100);
+
+  VendingDropIn(v, 100);
+  assert(VendingAmount(v) == 200);
+  assert(VendingCancel(v) == 200);
+  assert(VendingAmount(v) == 0);
 
   VendingForget(v);
   return 1;
@@ -72,4 +80,12 @@ VendingDropIn(Vending_p self,
 	      int money)
 {
   self->amount += money;
+}
+
+int
+VendingCancel(Vending_p self)
+{
+  int amount = self->amount;
+  self->amount = 0;
+  return amount;
 }
