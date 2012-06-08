@@ -39,6 +39,8 @@ testBuy(void)
   assert(v);
   assert(VendingAmount(v) == 0);
   assert(! strcmp(VendingItemName(v), "Cola"));
+  assert(VendingItemPrice(v) == 120);
+  assert(VendingItemStock(v) == 5);
 
   VendingDropIn(v, 100);
   assert(VendingAmount(v) == 100);
@@ -104,4 +106,16 @@ const char *
 VendingItemName(Vending_p self)
 {
   return "Cola";
+}
+
+int
+VendingItemPrice(Vending_p self)
+{
+  return 120;
+}
+
+int
+VendingItemStock(Vending_p self)
+{
+  return 5;
 }
