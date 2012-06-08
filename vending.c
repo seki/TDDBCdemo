@@ -65,14 +65,26 @@ main(int argc,
 /* vending.c */
 #include <stdlib.h>
 
+typedef struct {
+  const char * name;
+  int price;
+  int stock;
+} Item_t;
+
 typedef struct Vending_s {
   int amount;
+  Item_t item;
 } Vending_t;
 
 Vending_p
 VendingCreate(void)
 {
-  return calloc(1, sizeof(Vending_t));
+  Vending_p self = calloc(1, sizeof(Vending_t));
+  self->item.name = "Cola";
+  self->item.price = 120;
+  self->item.stock = 5;
+  
+  return self;
 }
 
 void
@@ -105,17 +117,17 @@ VendingCancel(Vending_p self)
 const char *
 VendingItemName(Vending_p self)
 {
-  return "Cola";
+  return self->item.name;
 }
 
 int
 VendingItemPrice(Vending_p self)
 {
-  return 120;
+  return self->item.price;
 }
 
 int
 VendingItemStock(Vending_p self)
 {
-  return 5;
+  return self->item.stock;
 }
