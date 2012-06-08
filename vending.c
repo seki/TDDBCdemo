@@ -13,7 +13,7 @@ VendingAmount(Vending_p self);
 int
 VendingSalesAmount(Vending_p self);
 
-void
+int
 VendingDropIn(Vending_p self, 
 	      int money);
 
@@ -81,11 +81,29 @@ testBuy(void)
   return 1;
 }
 
+static int
+testDropIn(void)
+{
+  Vending_p v = VendingCreate();
+
+  assert(! VendingDropIn(v, 1));
+  assert(! VendingDropIn(v, 5));
+  assert(VendingDropIn(v, 10));
+  assert(VendingDropIn(v, 50));
+  assert(VendingDropIn(v, 100));
+  assert(VendingDropIn(v, 500));
+  assert(VendingDropIn(v, 1000));
+  assert(VendingAmount(v) == 1660);
+
+  return 1;
+}
+
 int
 main(int argc,
      char **argv)
 {
   assert(testBuy());
+  assert(testDropIn());
   puts("done");
 }
 
@@ -133,11 +151,21 @@ VendingSalesAmount(Vending_p self)
   return self->sales_amount;
 }
 
-void
+int
 VendingDropIn(Vending_p self,
 	      int money)
 {
-  self->amount += money;
+  static int s_accept[] = {10, 50, 100, 500, 1000, 0};
+  int i;
+  
+  for (i = 0; s_accept[i]; i++) {
+    if (s_accept[i] == money) {
+      self->amount += money;
+      return 1;
+    }
+  }
+  
+  return 0;
 }
 
 int
