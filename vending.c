@@ -39,7 +39,7 @@ main(int argc,
 #include <stdlib.h>
 
 typedef struct Vending_s {
-  int vending;
+  int amount;
 } Vending_t;
 
 Vending_p
@@ -57,5 +57,5 @@ VendingForget(Vending_p self)
 int
 VendingAmount(Vending_p self)
 {
-  return 0;
+  return self->amount;
 }
