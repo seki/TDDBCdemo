@@ -17,6 +17,15 @@ VendingDropIn(Vending_p self,
 int
 VendingCancel(Vending_p self);
 
+const char *
+VendingItemName(Vending_p self);
+
+int
+VendingItemPrice(Vending_p self);
+
+int
+VendingItemStock(Vending_p self);
+
 /* test.c */
 #include <stdio.h>
 #include <string.h>
@@ -29,6 +38,7 @@ testBuy(void)
 
   assert(v);
   assert(VendingAmount(v) == 0);
+  assert(! strcmp(VendingItemName(v), "Cola"));
 
   VendingDropIn(v, 100);
   assert(VendingAmount(v) == 100);
@@ -88,4 +98,10 @@ VendingCancel(Vending_p self)
   int amount = self->amount;
   self->amount = 0;
   return amount;
+}
+
+const char *
+VendingItemName(Vending_p self)
+{
+  return "Cola";
 }
