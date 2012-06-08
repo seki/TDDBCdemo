@@ -10,6 +10,9 @@ VendingForget(Vending_p self);
 int
 VendingAmount(Vending_p self);
 
+int
+VendingSalesAmount(Vending_p self);
+
 void
 VendingDropIn(Vending_p self, 
 	      int money);
@@ -44,6 +47,7 @@ testBuy(void)
 
   assert(v);
   assert(VendingAmount(v) == 0);
+  assert(VendingSalesAmount(v) == 0);
   assert(! strcmp(VendingItemName(v), "Cola"));
   assert(VendingItemPrice(v) == 120);
   assert(VendingItemStock(v) == 5);
@@ -52,12 +56,14 @@ testBuy(void)
 
   VendingDropIn(v, 100);
   assert(VendingAmount(v) == 100);
+  assert(VendingSalesAmount(v) == 0);
 
   VendingDropIn(v, 100);
   assert(VendingAmount(v) == 200);
   assert(VendingCanBuy(v));
 
   assert(VendingBuy(v));
+  assert(VendingSalesAmount(v) == 120);
 
   assert(VendingCancel(v) == 80);
   assert(VendingAmount(v) == 0);
@@ -69,6 +75,7 @@ testBuy(void)
   assert(VendingBuy(v));
   assert(! VendingBuy(v));
   assert(VendingAmount(v) == 520);
+  assert(VendingSalesAmount(v) == 600);
 
   VendingForget(v);
   return 1;
@@ -93,6 +100,7 @@ typedef struct {
 
 typedef struct Vending_s {
   int amount;
+  int sales_amount;
   Item_t item;
 } Vending_t;
 
@@ -117,6 +125,12 @@ int
 VendingAmount(Vending_p self)
 {
   return self->amount;
+}
+
+int
+VendingSalesAmount(Vending_p self)
+{
+  return self->sales_amount;
 }
 
 void
@@ -165,6 +179,7 @@ VendingBuy(Vending_p self)
 
   self->item.stock -= 1;
   self->amount -= self->item.price;
+  self->sales_amount += self->item.price;
 
   return 1;
 }
