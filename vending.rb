@@ -1,10 +1,14 @@
 require 'test/unit'
 
 class Vending
+  Item = Struct.new(:price)
+
   def initialize
     @amount = 0
+    @item = Item.new
+    @item.price = 120
   end
-  attr_reader :amount
+  attr_reader :amount, :item
 
   def drop_in(money)
     @amount += money
@@ -16,15 +20,14 @@ class TestVending < Test::Unit::TestCase
     @v = Vending.new
   end
 
-  def test_core
+  def test_buy
     assert_equal(0, @v.amount)
+    assert_equal(120, @v.item.price)
 
     @v.drop_in(10)
-    assert_equal(10, @v.amount)
-
     @v.drop_in(10)
     @v.drop_in(100)
     assert_equal(120, @v.amount)
-    
+
   end
 end
