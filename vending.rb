@@ -15,6 +15,10 @@ class Vending
   def drop_in(money)
     @amount += money
   end
+
+  def can_buy?
+    @amount >= @item.price && @item.stock >= 0
+  end
 end
 
 class TestVending < Test::Unit::TestCase
@@ -28,11 +32,11 @@ class TestVending < Test::Unit::TestCase
     assert_equal(5, @v.item.stock)
     assert_equal('Cola', @v.item.name)
 
-
     @v.drop_in(10)
     @v.drop_in(10)
     @v.drop_in(100)
     assert_equal(120, @v.amount)
 
+    assert(@v.can_buy?)
   end
 end
