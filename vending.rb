@@ -17,13 +17,14 @@ class Vending
   end
 
   def can_buy?
-    @amount >= @item.price && @item.stock >= 0
+    @amount >= @item.price && @item.stock > 0
   end
 
   def buy
     return false unless can_buy?
     @amount -= @item.price
     @item.stock -= 1
+    true
   end
 end
 
@@ -38,6 +39,11 @@ class TestVending < Test::Unit::TestCase
     assert_equal(5, @v.item.stock)
     assert_equal('Cola', @v.item.name)
 
+    assert(! @v.buy)
+    assert_equal(120, @v.item.price)
+    assert_equal(5, @v.item.stock)
+    assert_equal('Cola', @v.item.name)
+
     @v.drop_in(10)
     @v.drop_in(10)
     assert(! @v.can_buy?)
@@ -48,5 +54,13 @@ class TestVending < Test::Unit::TestCase
 
     assert(@v.buy)
     assert_equal(0, @v.amount)
+    
+    @v.drop_in(1000)
+    assert(@v.can_buy?)
+    assert(@v.buy)
+    assert(@v.buy)
+    assert(@v.buy)
+    assert(@v.buy)
+    assert(! @v.buy)
   end
 end
