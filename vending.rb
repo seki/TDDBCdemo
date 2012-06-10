@@ -62,5 +62,8 @@ class TestVending < Test::Unit::TestCase
     assert(@v.buy)
     assert(@v.buy)
     assert(! @v.buy)
+
+    assert_equal(520, @v.amount)
+    
   end
 end
