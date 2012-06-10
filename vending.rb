@@ -13,7 +13,9 @@ class Vending
   attr_reader :amount, :item
 
   def drop_in(money)
+    return false unless [10, 50, 100, 500, 1000].include?(money)
     @amount += money
+    true
   end
 
   def can_buy?
@@ -37,6 +39,17 @@ end
 class TestVending < Test::Unit::TestCase
   def setup
     @v = Vending.new
+  end
+
+  def test_drop_in
+    assert(! @v.drop_in(1))
+    assert(! @v.drop_in(5))
+    assert(@v.drop_in(10))
+    assert(@v.drop_in(50))
+    assert(@v.drop_in(100))
+    assert(@v.drop_in(500))
+    assert(@v.drop_in(1000))
+    assert_equal(1660, @v.amount)
   end
 
   def test_buy
