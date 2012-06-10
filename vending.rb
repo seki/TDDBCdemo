@@ -1,14 +1,18 @@
 require 'test/unit'
 
-class Foo
-  def foo
-    'foo'
+class Vending
+  def initialize
+    @amount = 0
   end
+  attr_reader :amount
 end
 
-class TestFoo < Test::Unit::TestCase
+class TestVending < Test::Unit::TestCase
+  def setup
+    @v = Vending.new
+  end
+
   def test_core
-    foo = Foo.new
-    assert_equal('foo', foo.foo)
+    assert_equal(0, @v.amount)
   end
 end
