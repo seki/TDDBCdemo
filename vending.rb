@@ -5,12 +5,13 @@ class Vending
 
   def initialize
     @amount = 0
+    @sales_amount = 0
     @item = Item.new
     @item.price = 120
     @item.stock = 5
     @item.name = 'Cola'
   end
-  attr_reader :amount, :item
+  attr_reader :amount, :sales_amount, :item
 
   def drop_in(money)
     return false unless [10, 50, 100, 500, 1000].include?(money)
@@ -54,6 +55,7 @@ class TestVending < Test::Unit::TestCase
 
   def test_buy
     assert_equal(0, @v.amount)
+    assert_equal(0, @v.sales_amount)
     assert_equal(120, @v.item.price)
     assert_equal(5, @v.item.stock)
     assert_equal('Cola', @v.item.name)
