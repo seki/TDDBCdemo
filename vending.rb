@@ -26,6 +26,12 @@ class Vending
     @item.stock -= 1
     true
   end
+
+  def cancel
+    @amount
+  ensure
+    @amount = 0
+  end
 end
 
 class TestVending < Test::Unit::TestCase
@@ -64,6 +70,8 @@ class TestVending < Test::Unit::TestCase
     assert(! @v.buy)
 
     assert_equal(520, @v.amount)
-    
+    assert_equal(520, @v.cancel)
+    assert_equal(0, @v.amount)
+    assert_equal(0, @v.cancel)
   end
 end
