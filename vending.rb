@@ -34,6 +34,8 @@ class TestVending < Test::Unit::TestCase
 
     @v.drop_in(10)
     @v.drop_in(10)
+    assert(! @v.can_buy?)
+
     @v.drop_in(100)
     assert_equal(120, @v.amount)
 
